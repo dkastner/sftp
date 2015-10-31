@@ -26,7 +26,7 @@ for users in "$@"; do
     fi
 
     useradd $useraddOptions $user
-    chown root:root /home/$user
+    chown $uid:$gid /home/$user
     chmod 755 /home/$user
 
     if [ -z "$pass" ]; then
