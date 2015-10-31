@@ -29,6 +29,9 @@ for users in "$@"; do
     chown root:root /home/$user
     chmod 755 /home/$user
 
+    mkdir /home/$user/upload
+    chown $uid:$gid /home/$user/upload
+
     if [ -z "$pass" ]; then
         pass="$(echo `</dev/urandom tr -dc A-Za-z0-9 | head -c256`)"
         chpasswdOptions=""
