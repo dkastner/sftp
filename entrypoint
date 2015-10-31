@@ -26,11 +26,27 @@ for users in "$@"; do
     fi
 
     useradd $useraddOptions $user
-    chown root:root /home/$user
-    chmod 755 /home/$user
+    home=/home/$user
 
-    mkdir /home/$user/upload
-    chown $uid:$gid /home/$user/upload
+    # chroot needs $home owned by root
+    chown root:root $home
+    chmod 755 $home
+
+    ftp_home=/var/ftp/$user
+    upload_mountpoint=$home/$user
+    final_uid=$(id -u $user)
+    final_gid=$(id -g $user)
+
+    # create mount point writable subdirectory
+    mkdir -p $upload_mountpoint
+    chown -R $final_uid:$final_gid $upload_mountpoint
+
+    # create actual writable directory
+    mkdir -p $ftp_home
+    chown -R $final_uid:$final_gid $ftp_home
+
+    # mount writable dir as subdir in chroot home
+    mount --bind $ftp_home $upload_mountpoint
 
     if [ -z "$pass" ]; then
         pass="$(echo `</dev/urandom tr -dc A-Za-z0-9 | head -c256`)"
