@@ -1,7 +1,9 @@
-atmoz/sftp
+dkastner/sftp
 ==========
 
 Easy to use SFTP ([SSH File Transfer Protocol](https://en.wikipedia.org/wiki/SSH_File_Transfer_Protocol)) server with [OpenSSH](https://en.wikipedia.org/wiki/OpenSSH).
+
+This fork allows you to host files on an ephemeral docker image filesystem rather than a mounted volume.
 
 Usage
 -----
